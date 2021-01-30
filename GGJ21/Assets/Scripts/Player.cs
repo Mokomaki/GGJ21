@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+
+    enum BuffType
+    {
+        HP,
+        DMG,
+        SPEED
+    }
+
+
     public static Player player;
 
     public static float damageMultiplier = 1.0f;
+    public static float healthMultiplier = 1.0f;
+    public static float speedMultiplier = 1.0f;
 
     [SerializeField]
     float speed = 4.5f;
@@ -16,6 +27,12 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float attackDuration = 0.2f;
+
+    [SerializeField]
+    GameObject blockObject;
+
+    [SerializeField]
+    float blockDuration = 0.2f;
 
     [SerializeField]
     float combatCooldownTime = 0.2f;
@@ -95,12 +112,13 @@ public class Player : MonoBehaviour
 
     void Strike()
     {
-        combatCooldown = combatCooldownTime;
+        combatCooldown = combatCooldownTime+attackDuration;
         Destroy(Instantiate(attackObject, transform.position, transform.rotation), attackDuration);
     }
     void Block()
     {
-        combatCooldown = combatCooldownTime;
+        combatCooldown = combatCooldownTime+blockDuration;
+        Destroy(Instantiate(blockObject, transform), blockDuration);
     }
 
     void MovePlayer()
@@ -114,16 +132,23 @@ public class Player : MonoBehaviour
 
             if(DashCooldown()&&Input.GetKeyDown(KeyCode.LeftShift))
             {
-                rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
-                dashCooldown = dashCooldownTime;
-                Destroy(Instantiate(dashParticles,transform.position,transform.rotation), 1f);
+                Dash();
             }
             else
             {
-                rb.velocity = dir*speed;
+                rb.velocity = dir*speed*speedMultiplier;
             }
 
         }
+    }
+
+    void Dash()
+    {
+        rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
+        dashCooldown = dashCooldownTime;
+        Destroy(Instantiate(dashParticles, transform.position, transform.rotation), 1f);
+        Buff(0.5f, BuffType.DMG, 1);
+        Buff(0.5f, BuffType.SPEED, 0.5f);
     }
 
     void RotatePlayer()
@@ -142,4 +167,33 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    void AttackHit()
+    {
+        Buff(0.5f, BuffType.DMG, 1);
+    }
+
+    IEnumerator Buff(float duration, BuffType bType, float Amount)
+    {
+        switch(bType)
+        {
+            case BuffType.DMG:
+                damageMultiplier += Amount;
+                yield return new WaitForSeconds(duration);
+                damageMultiplier -= Amount;
+                break;
+            case BuffType.HP:
+                healthMultiplier += Amount;
+                yield return new WaitForSeconds(duration);
+                healthMultiplier -= Amount;
+                break;
+            case BuffType.SPEED:
+                speedMultiplier += Amount;
+                yield return new WaitForSeconds(duration);
+                speedMultiplier -= Amount;
+                break;
+        }
+    }
+
+
 }

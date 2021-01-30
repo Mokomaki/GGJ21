@@ -12,7 +12,7 @@ public class Attack : MonoBehaviour
         EnemyHealth enemyhealth = other.GetComponent<EnemyHealth>();
         if(enemyhealth)
         {
-            enemyhealth.TakeDamage(damage);
+            enemyhealth.TakeDamage((int)(damage*Player.damageMultiplier));
         }
     }
 }

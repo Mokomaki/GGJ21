@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6795735656040463502
+--- !u!114 &-7045751627253032170
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LepakkoTexture
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Name: Soul
+  m_Shader: {fileID: -6465566751694194690, guid: 4c825a53a6edf2d49b64521c94d9bcc0, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,6 +32,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_40e3dfa7fd9c43b5a2ec24221617e4b5:
+        m_Texture: {fileID: 2800000, guid: 21fb78261c1923745ad616e149649b28, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_5913a81607a741a5a1f7d3736740b4a0:
+        m_Texture: {fileID: 2800000, guid: 21fb78261c1923745ad616e149649b28, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_7b8bd4a6ef9940b18960d57b3e599a9d:
+        m_Texture: {fileID: 2800000, guid: 21fb78261c1923745ad616e149649b28, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -57,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 297d8f4ae3992c043933509180660d7f, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -70,6 +82,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_3e5ceb386ba441e0919987e462a7da42_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 21fb78261c1923745ad616e149649b28, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -89,6 +105,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_353ae331d0314559aca2b073023cc767: 6
+    - Vector1_a24c45739dbd4cb69443be73473d3510: 0.8
+    - Vector1_e93fdc5e27134b1e991e19112bfcd879: 1
+    - Vector1_f5b7cbff796c451797401ceecdcdd419: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -116,6 +136,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_40e9390752d148788eaf315e077ea3f1: {r: 0.19272874, g: 0.5754717, b: 0.55179745, a: 1}
+    - Color_d3da6df227d64abfa796a0ef75fd97f3: {r: 0.4024564, g: 0.7169812, b: 0.66909385, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
