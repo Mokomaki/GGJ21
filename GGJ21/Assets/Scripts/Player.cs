@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     public static float healthMultiplier = 1.0f;
     public static float speedMultiplier = 1.0f;
 
+    Animator anim;
+    
+
     [SerializeField]
     float speed = 4.5f;
 
@@ -61,6 +64,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        anim = GetComponentInChildren<Animator>();
         HitParticles = hitParticles;
         myTrans = transform;
         rb = GetComponent<Rigidbody>();
@@ -161,7 +165,13 @@ public class Player : MonoBehaviour
             {
                 rb.velocity = dir*speed*speedMultiplier;
             }
-
+            if(dir.magnitude>0)
+            {
+                anim.SetBool("Kavely", true);
+            }else
+            {
+                anim.SetBool("Kavely", false);
+            }
         }
     }
 
