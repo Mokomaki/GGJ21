@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player player;
+
+    public static float damageMultiplier = 1.0f;
+
     [SerializeField]
-    float speed = 3;
+    float speed = 4.5f;
 
     [SerializeField]
     GameObject attackObject;
@@ -15,15 +19,27 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     float combatCooldownTime = 0.2f;
-    
+
+    [SerializeField]
+    float dashCooldownTime = 3.0f;
+
+    [SerializeField]
+    float dashForce = 8.0f;
+
+    [SerializeField]
+    GameObject dashParticles;
+
+    float dashCooldown = 0;    
+
     Camera mainCam;
     bool canMove = true;
     Rigidbody rb;
     float combatCooldown = 0;
-    
+
 
     void Start()
     {
+        player = this;
         rb = GetComponent<Rigidbody>();
         mainCam = Camera.main;   
     }
@@ -37,6 +53,19 @@ public class Player : MonoBehaviour
         if(CombatCooldown())
         {
             CombatAction();
+        }
+    }
+
+    bool DashCooldown()
+    {
+        if (dashCooldown <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            dashCooldown -= Time.deltaTime;
+            return false;
         }
     }
 
@@ -83,7 +112,17 @@ public class Player : MonoBehaviour
             dir.z = Input.GetAxis("Vertical");
             dir.y = 0;
 
-            rb.velocity = dir*speed;
+            if(DashCooldown()&&Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
+                dashCooldown = dashCooldownTime;
+                Destroy(Instantiate(dashParticles,transform.position,transform.rotation), 1f);
+            }
+            else
+            {
+                rb.velocity = dir*speed;
+            }
+
         }
     }
 

@@ -37,4 +37,21 @@ public class CamController : MonoBehaviour
         velocity = (transform.position - lastPos).normalized;
         lastPos = transform.position;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        MeshRenderer ms = other.GetComponent<MeshRenderer>();
+        if(ms)
+        {
+            ms.enabled = false;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        MeshRenderer ms = other.GetComponent<MeshRenderer>();
+        if (ms)
+        {
+            ms.enabled = true;
+        }
+    }
 }
