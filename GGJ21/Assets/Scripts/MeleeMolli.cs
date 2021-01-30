@@ -69,8 +69,8 @@ public class MeleeMolli : MonoBehaviour
     {
         if(attackCooldown <= 0)
         {
-            Debug.Log("LÖIN SUA LOL");
-            //Destroy(Instantiate(attackObject, transform.position, transform.rotation), attackDuration);
+            //Debug.Log("LÖIN SUA LOL");
+            Destroy(Instantiate(attackObject, transform.position, transform.rotation), attackDuration);
             attackCooldown = attackCooldownTime;
         }
         else

@@ -45,16 +45,24 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject dashParticles;
 
+    [SerializeField]
+    GameObject hitParticles;
+
+    static GameObject HitParticles;
+    static Transform myTrans;
+
     float dashCooldown = 0;    
 
     Camera mainCam;
     bool canMove = true;
     Rigidbody rb;
     float combatCooldown = 0;
-
+    static bool isBlocking = false;
 
     void Start()
     {
+        HitParticles = hitParticles;
+        myTrans = transform;
         rb = GetComponent<Rigidbody>();
         mainCam = Camera.main;   
     }
@@ -102,10 +110,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    void TakeDamage(int DMG)
+    public static void TakeDamage(int DMG)
     {
-        Health -= DMG;
-        HealthProgress.ReduceHealth();
+        if(!isBlocking)
+        {
+            Health -= DMG;
+            HealthProgress.ReduceHealth();
+            Destroy(Instantiate(HitParticles, myTrans.position, myTrans.rotation), 2);
+        }
     }
 
     void CombatAction()
@@ -126,6 +138,8 @@ public class Player : MonoBehaviour
     }
     void Block()
     {
+        isBlocking = true;
+        StartCoroutine(StopBlock(blockDuration));
         combatCooldown = combatCooldownTime+blockDuration;
         Destroy(Instantiate(blockObject, transform), blockDuration);
     }
@@ -180,6 +194,13 @@ public class Player : MonoBehaviour
     void AttackHit()
     {
         Buff(0.5f, BuffType.DMG, 1);
+    }
+
+
+    IEnumerator StopBlock(float t)
+    {
+        yield return new WaitForSeconds(t);
+        isBlocking = false;
     }
 
     IEnumerator Buff(float duration, BuffType bType, float Amount)

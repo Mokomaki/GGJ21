@@ -8,6 +8,11 @@ public class EnemyHealth : MonoBehaviour
 
     bool die = false;
 
+    [SerializeField]
+    GameObject deathParticles;
+    [SerializeField]
+    GameObject hitParticles;
+
     private void Update()
     {
         if(die)
@@ -19,24 +24,17 @@ public class EnemyHealth : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
+        Destroy(Instantiate(deathParticles, transform.position, transform.rotation), 1.5f);
         health -= dmg;
         if(health<=0)
         {
             Die();
         }
-        Debug.Log("Hei pojat, tytöt, napanallet ja vesikarhut! Otin juuri " + dmg + " damagea.");
     }
 
     void Die()
     {
-        Debug.Log("Voi ei! Kuolin! TÄMÄN VUOKSI MINUA KUTSUTAAN LENTÄVÄKSI SIRKKELIKSI... HOPEANUOLIIII!!!!!!");
-        StartCoroutine(diuee());
-
-    }
-
-    IEnumerator diuee ()
-    {
-        yield return new WaitForSeconds(2);
-        die = true;
+        Destroy(Instantiate(deathParticles, transform.position, transform.rotation), 1.5f);
+        Destroy(gameObject);
     }
 }

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 573376700163948438}
+  - component: {fileID: 6512388336456844479}
   m_Layer: 0
   m_Name: JamSeinaPilari
   m_TagString: Untagged
@@ -33,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6512388336456844479
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918412986298770732}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.4649463, y: 12.946514, z: 23.320442}
+  m_Center: {x: 1.162473, y: 5.973257, z: -0.106098175}
 --- !u!1 &4239323309281637505
 GameObject:
   m_ObjectHideFlags: 0
