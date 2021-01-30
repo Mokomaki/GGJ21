@@ -12,8 +12,7 @@ public class Player : MonoBehaviour
         SPEED
     }
 
-
-    public static Player player;
+    public static int Health = 100;
 
     public static float damageMultiplier = 1.0f;
     public static float healthMultiplier = 1.0f;
@@ -56,7 +55,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        player = this;
         rb = GetComponent<Rigidbody>();
         mainCam = Camera.main;   
     }
@@ -70,6 +68,11 @@ public class Player : MonoBehaviour
         if(CombatCooldown())
         {
             CombatAction();
+        }
+
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            TakeDamage(10);
         }
     }
 
@@ -97,6 +100,12 @@ public class Player : MonoBehaviour
             combatCooldown -= Time.deltaTime;
             return false;
         }
+    }
+
+    void TakeDamage(int DMG)
+    {
+        Health -= DMG;
+        HealthProgress.ReduceHealth();
     }
 
     void CombatAction()
