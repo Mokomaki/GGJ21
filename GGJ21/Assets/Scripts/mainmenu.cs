@@ -21,6 +21,11 @@ public class mainmenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void mainmenuun()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     // Update is called once per frame
     void Update()
     {
