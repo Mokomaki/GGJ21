@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     }
 
     public static int Health = 100;
+    public static float dash = 3;
+    public static float combat = 0.5f;
 
     public static float damageMultiplier = 1.0f;
     public static float healthMultiplier = 1.0f;
@@ -28,7 +30,7 @@ public class Player : MonoBehaviour
     GameObject attackObject;
 
     [SerializeField]
-    float attackDuration = 0.2f;
+    float attackDuration = 0.4f;
 
     [SerializeField]
     GameObject blockObject;
@@ -54,7 +56,12 @@ public class Player : MonoBehaviour
     static GameObject HitParticles;
     static Transform myTrans;
 
-    float dashCooldown = 0;    
+    float dashCooldown = 0;
+
+    short ComboCount = 0;
+
+    float comboCounterTime = 0;
+    float comboCounterCooldown = 2;
 
     Camera mainCam;
     bool canMove = true;
@@ -76,15 +83,53 @@ public class Player : MonoBehaviour
 
         MovePlayer();
         RotatePlayer();
-        
+        DisableCombo();
         if(CombatCooldown())
         {
             CombatAction();
         }
+        Emote();
+    }
 
-        if(Input.GetKeyDown(KeyCode.H))
+    private void FixedUpdate()
+    {
+        CalculateDash();
+        DashProgress.ReduceDash();
+        CalculateCombat();
+        CombatProgress.ReduceCombat();
+    }
+
+    void Emote()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
         {
-            TakeDamage(10);
+            anim.SetBool("Emote", true);
+            StartCoroutine(setAnimBoolOff("Emote", 0.2f));
+        }
+    }
+
+    void CalculateDash()
+    {
+        dash = (dashCooldownTime - dashCooldown) * 33.33f;
+    }
+    void CalculateCombat()
+    {
+        combat = (combatCooldownTime - combatCooldown) * 190;
+    }
+
+    void DisableCombo()
+    {
+        if(ComboCount>2)
+        {
+            ComboCount = 0;
+        }
+        if(comboCounterTime>0)
+        {
+            comboCounterTime -= Time.deltaTime;
+        }
+        else
+        {
+            ComboCount = 0;
         }
     }
 
@@ -137,14 +182,34 @@ public class Player : MonoBehaviour
 
     void Strike()
     {
-        combatCooldown = combatCooldownTime+attackDuration;
+        switch(ComboCount)
+        {
+            case 0:
+                anim.SetBool("Hit1", true);
+                StartCoroutine(setAnimBoolOff("Hit1", attackDuration));
+                break;
+
+            case 1:
+                anim.SetBool("Hit2", true);
+                StartCoroutine(setAnimBoolOff("Hit2", attackDuration));
+                break;
+
+            case 2:
+                anim.SetBool("Hit3", true);
+                StartCoroutine(setAnimBoolOff("Hit3", attackDuration));
+                break;
+        }
+        combatCooldown = combatCooldownTime;
         Destroy(Instantiate(attackObject, transform.position, transform.rotation), attackDuration);
+
     }
     void Block()
     {
+        anim.SetBool("Block", true);
+        StartCoroutine(setAnimBoolOff("Block", blockDuration));
         isBlocking = true;
         StartCoroutine(StopBlock(blockDuration));
-        combatCooldown = combatCooldownTime+blockDuration;
+        combatCooldown = combatCooldownTime;
         Destroy(Instantiate(blockObject, transform), blockDuration);
     }
 
@@ -159,7 +224,10 @@ public class Player : MonoBehaviour
 
             if(DashCooldown()&&Input.GetKeyDown(KeyCode.LeftShift))
             {
+                anim.SetBool("Dash", true);
+                StartCoroutine(setAnimBoolOff("Dash", 0.2f));
                 Dash();
+                return;
             }
             else
             {
@@ -167,14 +235,14 @@ public class Player : MonoBehaviour
             }
             if(dir.magnitude>0)
             {
-                anim.SetBool("Kavely", true);
+                anim.SetBool("Walking", true);
             }else
             {
-                anim.SetBool("Kavely", false);
+                anim.SetBool("Walking", false);
             }
         }
     }
-
+        
     void Dash()
     {
         rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
@@ -201,11 +269,28 @@ public class Player : MonoBehaviour
         }
     }
 
-    void AttackHit()
+    public void AttackHit()
     {
+        if(ComboCount<3)
+        {
+            ComboCount++;
+            comboCounterTime = comboCounterCooldown;
+        }
         Buff(0.5f, BuffType.DMG, 1);
     }
 
+    public void AttackMissed()
+    {
+        ComboCount = 0;
+        comboCounterTime = 0;
+    }
+
+
+     IEnumerator setAnimBoolOff(string boolName, float t)
+    {
+        yield return new WaitForSeconds(t);
+        anim.SetBool(boolName, false);
+    }
 
     IEnumerator StopBlock(float t)
     {

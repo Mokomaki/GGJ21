@@ -4,23 +4,13 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
+    [SerializeField]
     int health = 15;
-
-    bool die = false;
 
     [SerializeField]
     GameObject deathParticles;
     [SerializeField]
     GameObject hitParticles;
-
-    private void Update()
-    {
-        if(die)
-        {
-            transform.position = transform.position + new Vector3(0, 0.003f, 0.005f);
-            transform.Rotate(5, 0, 0);
-        }
-    }
 
     public void TakeDamage(int dmg)
     {

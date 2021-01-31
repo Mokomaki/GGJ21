@@ -4,8 +4,26 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
+
+    Player p;
+
+    void Start()
+    {
+        p = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    }
+
+    void OnDestroy()
+    {
+        if(!hit)
+        {
+            p.AttackMissed();
+        }
+    }
+
     [SerializeField]
     int damage = 5;
+
+    bool hit = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,5 +32,7 @@ public class Attack : MonoBehaviour
         {
             enemyhealth.TakeDamage((int)(damage*Player.damageMultiplier));
         }
+        p.AttackHit();
+        hit = true;
     }
 }
