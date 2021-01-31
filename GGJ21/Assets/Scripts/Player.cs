@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -166,6 +167,10 @@ public class Player : MonoBehaviour
             Health -= DMG;
             HealthProgress.ReduceHealth();
             Destroy(Instantiate(HitParticles, myTrans.position, myTrans.rotation), 2);
+        }
+        if(Health<=0)
+        {
+            SceneManager.LoadScene(2);
         }
     }
 

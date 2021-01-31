@@ -11,7 +11,6 @@ public class EnemyAttack : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("hit");
             Player.TakeDamage(damage);
         }
     }
