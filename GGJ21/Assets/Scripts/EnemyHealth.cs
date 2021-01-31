@@ -28,7 +28,12 @@ public class EnemyHealth : MonoBehaviour
         Destroy(Instantiate(deathParticles, transform.position, transform.rotation), 1.5f);
         if(transform.CompareTag("Boss"))
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(3);
+        }
+
+        if(Player.Health<=80)
+        {
+            Player.Health += 5;
         }
         Destroy(gameObject);
     }
